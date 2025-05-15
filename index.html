@@ -3,262 +3,849 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>دکتر آنلاین - مشاوره هوش مصنوعی</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>دکتر آنلاین - مشاوره پزشکی هوشمند</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --accent-color: #e74c3c;
-            --light-color: #ecf0f1;
-            --dark-color: #2c3e50;
+            --primary-color: #2b6cb0; /* آبی */
+            --secondary-color: #4299e1; /* آبی روشن */
+            --accent-color: #38b2ac; /* فیروزه‌ای */
+            --text-color: #2d3748;
+            --light-color: #f7fafc;
+            --dark-color: #1a202c;
+            --header-dark: #1e3a8a; /* آبی تیره برای بخش پایین هدر */
+            --success-color: #48bb78;
+            --warning-color: #ed8936;
+            --error-color: #f56565;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f7fa;
-            color: #333;
+            background-color: #f0f4f8;
+            color: var(--text-color);
             line-height: 1.6;
+            scroll-behavior: smooth;
         }
         
-        .navbar {
-            background: linear-gradient(135deg, var(--primary-color), var(--dark-color));
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
         
-        .navbar-brand {
-            font-weight: 700;
-            font-size: 1.5rem;
-        }
-        
-        .hero-section {
-            background: linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.9)), url('https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
-            background-size: cover;
-            background-position: center;
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
-            padding: 5rem 0;
+            padding: 1rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .logo i {
+            margin-left: 10px;
+            font-size: 2rem;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .logo:hover i {
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        .nav-menu {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .nav-item i {
+            font-size: 1.1rem;
+        }
+        
+        .language-switcher {
+            position: relative;
+        }
+        
+        .language-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+        }
+        
+        .language-btn i {
+            margin-left: 5px;
+        }
+        
+        .language-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 150px;
+            display: none;
+            z-index: 10;
+        }
+        
+        .language-dropdown.show {
+            display: block;
+        }
+        
+        .language-dropdown a {
+            display: block;
+            padding: 10px 15px;
+            color: var(--dark-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .language-dropdown a:hover {
+            background: var(--light-color);
+            color: var(--primary-color);
+        }
+        
+        .hero {
+            background: url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            background-color: var(--header-dark);
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            color: white;
+            max-width: 600px;
             text-align: center;
+            margin: 0 auto;
+        }
+        
+        .hero-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 1rem;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            line-height: 1.3;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--accent-color);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background: #2c7a7b;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         
         .chat-container {
-            background-color: white;
+            background: white;
             border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
             margin: 2rem auto;
+            max-width: 700px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+        
+        .chat-container.show {
+            opacity: 1;
+            transform: translateY(0);
         }
         
         .chat-header {
-            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
-            color: white;
-            padding: 1rem;
-            font-weight: 600;
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .chat-header i {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-left: 15px;
+        }
+        
+        .chat-header h2 {
+            font-size: 1.5rem;
+            color: var(--dark-color);
         }
         
         .chat-messages {
-            height: 400px;
+            height: 350px;
             overflow-y: auto;
-            padding: 1.5rem;
-            background-color: #f9f9f9;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: var(--light-color);
+            border-radius: 8px;
         }
         
         .message {
             margin-bottom: 1rem;
+            padding: 10px 15px;
+            border-radius: 8px;
             max-width: 80%;
-            padding: 0.8rem 1.2rem;
-            border-radius: 18px;
-            position: relative;
-            animation: fadeIn 0.3s ease;
-        }
-        
-        .user-message {
-            background-color: var(--secondary-color);
-            color: white;
-            margin-left: auto;
-            border-bottom-right-radius: 5px;
+            font-size: 0.95rem;
         }
         
         .bot-message {
-            background-color: white;
-            border: 1px solid #ddd;
+            background: var(--primary-color);
+            color: white;
             margin-right: auto;
-            border-bottom-left-radius: 5px;
+        }
+        
+        .user-message {
+            background: var(--light-color);
+            color: var(--dark-color);
+            margin-left: auto;
+            border: 1px solid #ddd;
         }
         
         .chat-input {
-            border-top: 1px solid #eee;
-            padding: 1rem;
-            background-color: white;
+            display: flex;
+            gap: 10px;
         }
         
-        #user-input {
-            border-radius: 20px;
-            padding: 10px 20px;
+        .chat-input input {
+            flex: 1;
+            padding: 12px 15px;
             border: 1px solid #ddd;
-            resize: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            outline: none;
         }
         
-        #send-btn {
-            border-radius: 20px;
-            padding: 10px 25px;
-            background-color: var(--secondary-color);
+        .chat-input button {
+            background: var(--primary-color);
+            color: white;
             border: none;
-            font-weight: 600;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .chat-input button:hover {
+            background: var(--secondary-color);
+            transform: scale(1.05);
+        }
+        
+        .features {
+            padding: 4rem 0;
+            background: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2rem;
+            color: var(--primary-color);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
         }
         
         .feature-card {
-            background-color: white;
+            background: #f8fafc;
             border-radius: 10px;
             padding: 2rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            height: 100%;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            text-align: center;
         }
         
         .feature-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
         }
         
         .feature-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+        }
+        
+        .about {
+            padding: 4rem 0;
+            background: #f8fafc;
+        }
+        
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        
+        .about-image img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .about-text h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+        
+        .about-text p {
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+        
+        .tech-stack {
+            margin-top: 2rem;
+        }
+        
+        .tech-stack h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark-color);
+            text-align: center;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .tech-stack h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--accent-color);
+            border-radius: 3px;
+        }
+        
+        .tech-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .tech-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .tech-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-color: var(--secondary-color);
+        }
+        
+        .tech-icon {
             font-size: 2.5rem;
-            color: var(--secondary-color);
+            color: var(--primary-color);
             margin-bottom: 1rem;
         }
         
-        .about-section {
-            background-color: var(--light-color);
-            padding: 4rem 0;
+        .tech-name {
+            font-weight: 600;
+            color: var(--dark-color);
+            font-size: 1.1rem;
         }
         
         footer {
-            background-color: var(--dark-color);
+            background: var(--dark-color);
             color: white;
-            padding: 2rem 0;
+            padding: 3rem 0;
+            text-align: center;
         }
         
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: var(--light-color);
+        }
+        
+        .footer-section p {
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+        
+        .footer-link {
+            color: white;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-link:hover {
+            color: var(--secondary-color);
+        }
+        
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-icons a {
+            color: white;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            color: var(--secondary-color);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0.7;
+        }
+        
+        .loading-dots {
+            display: inline-block;
+            position: relative;
+            width: 80px;
+            height: 20px;
+        }
+        
+        .loading-dots div {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: white;
+            animation-timing-function: cubic-bezier(0, 1, 1, 0);
+        }
+        
+        .loading-dots div:nth-child(1) {
+            left: 8px;
+            animation: loading-dots1 0.6s infinite;
+        }
+        
+        .loading-dots div:nth-child(2) {
+            left: 8px;
+            animation: loading-dots2 0.6s infinite;
+        }
+        
+        .loading-dots div:nth-child(3) {
+            left: 32px;
+            animation: loading-dots2 0.6s infinite;
+        }
+        
+        .loading-dots div:nth-child(4) {
+            left: 56px;
+            animation: loading-dots3 0.6s infinite;
+        }
+        
+        @keyframes loading-dots1 {
+            0% { transform: scale(0); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes loading-dots3 {
+            0% { transform: scale(1); }
+            100% { transform: scale(0); }
+        }
+        
+        @keyframes loading-dots2 {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(24px, 0); }
+        }
+        
+        @media (max-width: 768px) {
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero {
+                height: 400px;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .chat-container {
+                padding: 1rem;
+            }
+            
+            .chat-header h2 {
+                font-size: 1.3rem;
+            }
+            
+            .chat-messages {
+                height: 300px;
+            }
+            
+            .nav-menu {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .hero {
+                height: 350px;
+            }
+            
+            .hero-title {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .chat-messages {
+                height: 250px;
+            }
+        }
+        
+        /* Animation */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
         
-        .typing-indicator {
-            display: inline-block;
-            padding: 10px 15px;
-            background-color: #f1f1f1;
-            border-radius: 20px;
+        .feature-card, .message {
+            animation: fadeIn 0.5s ease forwards;
         }
         
-        .typing-dot {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: #999;
-            margin: 0 2px;
-            animation: typingAnimation 1.4s infinite ease-in-out;
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
         }
         
-        .typing-dot:nth-child(1) { animation-delay: 0s; }
-        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-        
-        @keyframes typingAnimation {
-            0%, 60%, 100% { transform: translateY(0); }
-            30% { transform: translateY(-5px); }
-        }
-
-        .markdown-content {
-            white-space: pre-wrap;
+        /* RTL styles */
+        [dir="rtl"] {
+            direction: rtl;
             text-align: right;
+        }
+        
+        [dir="rtl"] .logo i {
+            margin-right: 10px;
+            margin-left: 0;
+        }
+        
+        [dir="rtl"] .language-btn i {
+            margin-right: 5px;
+            margin-left: 0;
+        }
+        
+        [dir="rtl"] .language-dropdown {
+            right: 0;
+            left: auto;
+        }
+        
+        [dir="rtl"] .bot-message {
+            margin-left: auto;
+            margin-right: 0;
+        }
+        
+        [dir="rtl"] .user-message {
+            margin-right: auto;
+            margin-left: 0;
+        }
+        
+        [dir="rtl"] .about-content {
             direction: rtl;
         }
-
-        .markdown-content h1, 
-        .markdown-content h2, 
-        .markdown-content h3 {
-            color: var(--primary-color);
-            margin-top: 1rem;
+        
+        /* LTR styles */
+        [dir="ltr"] {
+            direction: ltr;
+            text-align: left;
         }
-
-        .markdown-content ul, 
-        .markdown-content ol {
-            padding-right: 1.5rem;
+        
+        [dir="ltr"] .logo i {
+            margin-left: 10px;
+            margin-right: 0;
         }
-
-        .markdown-content li {
-            margin-bottom: 0.5rem;
+        
+        [dir="ltr"] .language-btn i {
+            margin-left: 5px;
+            margin-right: 0;
         }
-
-        .markdown-content code {
-            background-color: #f5f5f5;
-            padding: 2px 4px;
-            border-radius: 4px;
-            font-family: monospace;
+        
+        [dir="ltr"] .language-dropdown {
+            left: 0;
+            right: auto;
+        }
+        
+        [dir="ltr"] .bot-message {
+            margin-right: auto;
+            margin-left: 0;
+        }
+        
+        [dir="ltr"] .user-message {
+            margin-left: auto;
+            margin-right: 0;
         }
     </style>
 </head>
 <body>
-    <!-- نوار ناوبری -->
-    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                <i class="fas fa-robot me-2"></i>دکتر آنلاین
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">خانه</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#features">امکانات</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#about">درباره ما</a>
-                    </li>
-                </ul>
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-heartbeat"></i>
+                <span id="logo-text">دکتر آنلاین</span>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="#chat" class="nav-item" id="nav-consultation">
+                    <i class="fas fa-comments"></i>
+                    <span class="nav-text">مشاوره</span>
+                </a>
+                <a href="#features" class="nav-item" id="nav-features">
+                    <i class="fas fa-cogs"></i>
+                    <span class="nav-text">امکانات</span>
+                </a>
+                <a href="#about" class="nav-item" id="nav-about">
+                    <i class="fas fa-info-circle"></i>
+                    <span class="nav-text">درباره ما</span>
+                </a>
+            </nav>
+            
+            <div class="language-switcher">
+                <button class="language-btn" id="languageBtn">
+                    فارسی
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="language-dropdown" id="languageDropdown">
+                    <a href="#" data-lang="fa" data-dir="rtl">فارسی</a>
+                    <a href="#" data-lang="en" data-dir="ltr">English</a>
+                    <a href="#" data-lang="ar" data-dir="rtl">العربية</a>
+                    <a href="#" data-lang="fr" data-dir="ltr">Français</a>
+                    <a href="#" data-lang="it" data-dir="ltr">Italiano</a>
+                </div>
             </div>
         </div>
-    </nav>
+    </header>
 
-    <!-- بخش هیرو -->
-    <section class="hero-section">
-        <div class="container">
-            <h1 class="display-4 fw-bold mb-4">مشاوره پزشکی هوشمند</h1>
-            <p class="lead mb-5">پاسخ به سوالات پزشکی شما با استفاده از پیشرفته‌ترین فناوری هوش مصنوعی</p>
-            <a href="#chat" class="btn btn-light btn-lg px-4 py-2">
-                <i class="fas fa-comment-medical me-2"></i>شروع مشاوره
-            </a>
+    <section class="hero">
+        <div class="container hero-content">
+            <div class="hero-title">
+                <i class="fas fa-robot" style="font-size: 2.5rem;"></i>
+                <h1>مشاوره پزشکی هوشمند</h1>
+                <i class="fas fa-robot" style="font-size: 2.5rem;"></i>
+            </div>
+            <p>پاسخ به سوالات پزشکی شما با استفاده از پیشرفته‌ترین فناوری هوش مصنوعی</p>
+            <a href="#chat" class="btn" id="startConsultationBtn">شروع مشاوره</a>
         </div>
     </section>
 
-    <!-- بخش چت -->
-    <section id="chat" class="py-5">
+    <section class="chat-container" id="chat">
+        <div class="chat-header">
+            <i class="fas fa-robot"></i>
+            <h2>چت بات پزشکی هوشمند</h2>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot-message">
+                سلام! من یک دستیار پزشکی هوشمند هستم که با استفاده از پیشرفته‌ترین الگوریتم‌های یادگیری عمیق و پردازش زبان طبیعی آموزش دیده‌ام. چگونه می‌توانم به شما کمک کنم؟
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="userInput" placeholder="سوال پزشکی خود را بپرسید...">
+            <button id="sendBtn"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </section>
+
+    <section class="features" id="features">
         <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="chat-container">
-                        <div class="chat-header text-center">
-                            <i class="fas fa-robot me-2"></i>دکتر هوشمند
-                        </div>
-                        <div class="chat-messages" id="chat-messages">
-                            <div class="message bot-message">
-                                <div class="markdown-content">
-سلام! من یک دستیار پزشکی هوشمند هستم که با استفاده از پیشرفته‌ترین الگوریتم‌های یادگیری عمیق و پردازش زبان طبیعی آموزش دیده‌ام. چگونه می‌توانم به شما کمک کنم؟
-                                </div>
+            <h2 class="section-title">امکانات دکتر آنلاین</h2>
+            <p style="text-align: center; margin-bottom: 2rem;">راهکارهای هوشمند برای سلامت شما</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>پاسخ‌دهی 24 ساعته</h3>
+                    <p>در هر ساعت از شبانه‌روز می‌توانید سوالات پزشکی خود را مطرح کنید و پاسخ فوری دریافت نمایید.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3>محرمانگی اطلاعات</h3>
+                    <p>تمامی اطلاعات و سوالات شما به صورت کاملا محرمانه نگهداری می‌شود.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>هوش مصنوعی پیشرفته</h3>
+                    <p>با استفاده از آخرین فناوری‌های هوش مصنوعی، دقیق‌ترین پاسخ‌ها را دریافت می‌کنید.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about" id="about">
+        <div class="container about-content">
+            <div class="about-image">
+                <img src="AiDr.png" alt="دکتر هوش مصنوعی">
+            </div>
+            <div class="about-text">
+                <h2>درباره دکتر آنلاین</h2>
+                <p>پروژه دکتر آنلاین یک سامانه مشاوره پزشکی هوشمند است که با بهره‌گیری از پیشرفته‌ترین الگوریتم‌های هوش مصنوعی طراحی شده است. این سیستم قادر است به سوالات پزشکی کاربران پاسخ دهد و اطلاعات مفیدی در زمینه سلامت ارائه کند. این پلتفرم به عنوان یک دستیار مجازی پزشکی عمل می‌کند و می‌تواند در تشخیص اولیه علائم بیماری‌ها، ارائه راهنمایی‌های عمومی پزشکی و افزایش آگاهی سلامت مؤثر باشد.</p>
+                <p>این برنامه توسط مهندس علی چالاکی، متخصص هوش مصنوعی و یادگیری ماشین طراحی و توسعه یافته است. با بهره‌گیری از سال‌ها تجربه در حوزه فناوری اطلاعات و سلامت دیجیتال، این سیستم به گونه‌ای طراحی شده که بتواند نیازهای کاربران را به بهترین شکل ممکن برطرف نماید.</p>
+                
+                <div class="tech-stack">
+                    <h3>فناوری‌های به کار رفته</h3>
+                    <p>این سیستم با استفاده از ترکیبی از فناوری‌های زیر توسعه یافته است:</p>
+                    <div class="tech-list">
+                        <div class="tech-item">
+                            <div class="tech-icon">
+                                <i class="fas fa-language"></i>
                             </div>
+                            <div class="tech-name">پردازش زبان طبیعی (NLP)</div>
                         </div>
-                        <div class="chat-input">
-                            <div class="input-group">
-                                <textarea id="user-input" class="form-control" placeholder="سوال پزشکی خود را اینجا بنویسید..." rows="1"></textarea>
-                                <button id="send-btn" class="btn btn-primary ms-2">
-                                    <i class="fas fa-paper-plane"></i>
-                                </button>
+                        <div class="tech-item">
+                            <div class="tech-icon">
+                                <i class="fas fa-project-diagram"></i>
                             </div>
+                            <div class="tech-name">شبکه‌های عصبی عمیق</div>
+                        </div>
+                        <div class="tech-item">
+                            <div class="tech-icon">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="tech-name">یادگیری ماشین</div>
+                        </div>
+                        <div class="tech-item">
+                            <div class="tech-icon">
+                                <i class="fas fa-database"></i>
+                            </div>
+                            <div class="tech-name">پایگاه دانش پزشکی</div>
                         </div>
                     </div>
                 </div>
@@ -266,230 +853,484 @@
         </div>
     </section>
 
-    <!-- امکانات -->
-    <section id="features" class="py-5 bg-light">
+    <footer>
         <div class="container">
-            <div class="text-center mb-5">
-                <h2 class="fw-bold">امکانات دکتر آنلاین</h2>
-                <p class="text-muted">راهکارهای هوشمند برای سلامت شما</p>
-            </div>
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                        <h4>پاسخ‌دهی 24 ساعته</h4>
-                        <p>در هر ساعت از شبانه‌روز می‌توانید سوالات پزشکی خود را مطرح کنید و پاسخ فوری دریافت نمایید.</p>
-                    </div>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>دکتر آنلاین</h3>
+                    <p>مشاوره پزشکی هوشمند با استفاده از پیشرفته‌ترین فناوری‌های هوش مصنوعی</p>
                 </div>
-                <div class="col-md-4">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-user-shield"></i>
-                        </div>
-                        <h4>محرمانگی اطلاعات</h4>
-                        <p>تمامی اطلاعات و سوالات شما به صورت کاملا محرمانه نگهداری می‌شود.</p>
-                    </div>
+                <div class="footer-section">
+                    <h3>تماس با ما</h3>
+                    <a href="tel:09102655884" class="footer-link">09102655884</a>
+                    <a href="mailto:info@doctor-online.ir" class="footer-link">info@doctor-online.ir</a>
+                    <a href="https://alichalaki.github.io/" class="btn" style="display: inline-block; margin-top: 10px; padding: 8px 15px; font-size: 0.9rem;">وبسایت توسعه دهنده</a>
                 </div>
-                <div class="col-md-4">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-brain"></i>
-                        </div>
-                        <h4>هوش مصنوعی پیشرفته</h4>
-                        <p>با استفاده از آخرین فناوری‌های هوش مصنوعی، دقیق‌ترین پاسخ‌ها را دریافت می‌کنید.</p>
+                <div class="footer-section">
+                    <h3>شبکه‌های اجتماعی</h3>
+                    <div class="social-icons">
+                        <a href="https://www.linkedin.com/in/Ali-Chalaki" target="_blank"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://github.com/AliChalaki" target="_blank"><i class="fab fa-github"></i></a>
+                        <a href="https://instagram.com/TechByChalaki" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://t.me/TechByChalaki" target="_blank"><i class="fab fa-telegram"></i></a>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- درباره برنامه -->
-    <section id="about" class="about-section py-5">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6 mb-4 mb-lg-0">
-                    <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="هوش مصنوعی در پزشکی" class="img-fluid rounded shadow">
-                </div>
-                <div class="col-lg-6">
-                    <h2 class="fw-bold mb-4">درباره دکتر آنلاین</h2>
-                    <p class="mb-4">پروژه دکتر آنلاین یک سامانه مشاوره پزشکی هوشمند است که با بهره‌گیری از پیشرفته‌ترین الگوریتم‌های هوش مصنوعی طراحی شده است. این سیستم قادر است به سوالات پزشکی کاربران پاسخ دهد و اطلاعات مفیدی در زمینه سلامت ارائه کند.</p>
-                    <p class="mb-4">این پلتفرم به عنوان یک دستیار مجازی پزشکی عمل می‌کند و می‌تواند در تشخیص اولیه علائم بیماری‌ها، ارائه راهنمایی‌های عمومی پزشکی و افزایش آگاهی سلامت مؤثر باشد.</p>
-                    <div class="bg-white p-4 rounded shadow-sm">
-                        <h5 class="fw-bold">فناوری‌های به کار رفته</h5>
-                        <p class="mb-2">این سیستم با استفاده از ترکیبی از فناوری‌های زیر توسعه یافته است:</p>
-                        <ul>
-                            <li>مدل‌های پیشرفته پردازش زبان طبیعی (NLP)</li>
-                            <li>شبکه‌های عصبی عمیق (Deep Neural Networks)</li>
-                            <li>الگوریتم‌های یادگیری ماشین (Machine Learning)</li>
-                            <li>پایگاه دانش پزشکی تخصصی</li>
-                        </ul>
-                        <h5 class="fw-bold mt-3">طراحی و توسعه</h5>
-                        <p class="mb-0">این برنامه توسط <strong>مهندس علی چالاکی</strong>، متخصص هوش مصنوعی و یادگیری ماشین طراحی و توسعه یافته است. با بهره‌گیری از سال‌ها تجربه در حوزه فناوری اطلاعات و سلامت دیجیتال، این سیستم به گونه‌ای طراحی شده که بتواند نیازهای کاربران را به بهترین شکل ممکن برطرف نماید.</p>
-                    </div>
-                </div>
+            <div class="copyright">
+                <p>© 2023 دکتر آنلاین. تمامی حقوق محفوظ است.</p>
             </div>
-        </div>
-    </section>
-
-    <!-- فوتر -->
-    <footer class="text-center">
-        <div class="container">
-            <div class="mb-4">
-                <a href="#" class="text-white mx-2"><i class="fab fa-instagram fa-lg"></i></a>
-                <a href="#" class="text-white mx-2"><i class="fab fa-telegram fa-lg"></i></a>
-                <a href="#" class="text-white mx-2"><i class="fab fa-linkedin fa-lg"></i></a>
-                <a href="#" class="text-white mx-2"><i class="fab fa-github fa-lg"></i></a>
-            </div>
-            <p class="mb-0">تمامی حقوق برای دکتر آنلاین محفوظ است © 2023</p>
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const userInput = document.getElementById('user-input');
-            const sendBtn = document.getElementById('send-btn');
-            const chatMessages = document.getElementById('chat-messages');
-            const API_KEY = 'sk-5568434a97374393a18cd1baff04e5a3'; // کلید API دیپ سیک
-            
-            // Auto-resize textarea
-            userInput.addEventListener('input', function() {
-                this.style.height = 'auto';
-                this.style.height = (this.scrollHeight) + 'px';
-            });
-            
-            // Send message on button click
-            sendBtn.addEventListener('click', sendMessage);
-            
-            // Send message on Enter key (without shift)
-            userInput.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    sendMessage();
+        // Translation data
+        const translations = {
+            fa: {
+                title: "دکتر آنلاین - مشاوره پزشکی هوشمند",
+                logoText: "دکتر آنلاین",
+                heroTitle: "مشاوره پزشکی هوشمند",
+                heroSubtitle: "پاسخ به سوالات پزشکی شما با استفاده از پیشرفته‌ترین فناوری هوش مصنوعی",
+                ctaButton: "شروع مشاوره",
+                featuresTitle: "امکانات دکتر آنلاین",
+                featuresSubtitle: "راهکارهای هوشمند برای سلامت شما",
+                feature1Title: "پاسخ‌دهی 24 ساعته",
+                feature1Desc: "در هر ساعت از شبانه‌روز می‌توانید سوالات پزشکی خود را مطرح کنید و پاسخ فوری دریافت نمایید.",
+                feature2Title: "محرمانگی اطلاعات",
+                feature2Desc: "تمامی اطلاعات و سوالات شما به صورت کاملا محرمانه نگهداری می‌شود.",
+                feature3Title: "هوش مصنوعی پیشرفته",
+                feature3Desc: "با استفاده از آخرین فناوری‌های هوش مصنوعی، دقیق‌ترین پاسخ‌ها را دریافت می‌کنید.",
+                aboutTitle: "درباره دکتر آنلاین",
+                aboutText1: "پروژه دکتر آنلاین یک سامانه مشاوره پزشکی هوشمند است که با بهره‌گیری از پیشرفته‌ترین الگوریتم‌های هوش مصنوعی طراحی شده است. این سیستم قادر است به سوالات پزشکی کاربران پاسخ دهد و اطلاعات مفیدی در زمینه سلامت ارائه کند. این پلتفرم به عنوان یک دستیار مجازی پزشکی عمل می‌کند و می‌تواند در تشخیص اولیه علائم بیماری‌ها، ارائه راهنمایی‌های عمومی پزشکی و افزایش آگاهی سلامت مؤثر باشد.",
+                aboutText2: "این برنامه توسط مهندس علی چالاکی، متخصص هوش مصنوعی و یادگیری ماشین طراحی و توسعه یافته است. با بهره‌گیری از سال‌ها تجربه در حوزه فناوری اطلاعات و سلامت دیجیتال، این سیستم به گونه‌ای طراحی شده که بتواند نیازهای کاربران را به بهترین شکل ممکن برطرف نماید.",
+                techTitle: "فناوری‌های به کار رفته",
+                techDesc: "این سیستم با استفاده از ترکیبی از فناوری‌های زیر توسعه یافته است:",
+                tech1: "پردازش زبان طبیعی (NLP)",
+                tech2: "شبکه‌های عصبی عمیق",
+                tech3: "یادگیری ماشین",
+                tech4: "پایگاه دانش پزشکی",
+                chatTitle: "چت بات پزشکی هوشمند",
+                chatPlaceholder: "سوال پزشکی خود را بپرسید...",
+                welcomeMessage: "سلام! من یک دستیار پزشکی هوشمند هستم که با استفاده از پیشرفته‌ترین الگوریتم‌های یادگیری عمیق و پردازش زبان طبیعی آموزش دیده‌ام. چگونه می‌توانم به شما کمک کنم؟",
+                navConsultation: "مشاوره",
+                navFeatures: "امکانات",
+                navAbout: "درباره ما",
+                footerTitle: "دکتر آنلاین",
+                footerDesc: "مشاوره پزشکی هوشمند با استفاده از پیشرفته‌ترین فناوری‌های هوش مصنوعی",
+                contactTitle: "تماس با ما",
+                email: "info@doctor-online.ir",
+                phone: "09102655884",
+                socialTitle: "شبکه‌های اجتماعی",
+                copyright: "© 2023 دکتر آنلاین. تمامی حقوق محفوظ است."
+            },
+            en: {
+                title: "Online Doctor - Smart Medical Consultation",
+                logoText: "Online Doctor",
+                heroTitle: "Smart Medical Consultation",
+                heroSubtitle: "Answers to your medical questions using the most advanced AI technology",
+                ctaButton: "Start Consultation",
+                featuresTitle: "Online Doctor Features",
+                featuresSubtitle: "Smart solutions for your health",
+                feature1Title: "24/7 Response",
+                feature1Desc: "You can ask your medical questions at any time of the day and get an immediate response.",
+                feature2Title: "Data Privacy",
+                feature2Desc: "All your information and questions are kept completely confidential.",
+                feature3Title: "Advanced AI",
+                feature3Desc: "Using the latest AI technologies, you receive the most accurate answers.",
+                aboutTitle: "About Online Doctor",
+                aboutText1: "The Online Doctor project is an intelligent medical consultation system designed using the most advanced AI algorithms. This system can answer users' medical questions and provide useful health information. This platform acts as a virtual medical assistant and can be effective in preliminary diagnosis of disease symptoms, providing general medical guidance, and increasing health awareness.",
+                aboutText2: "This application has been designed and developed by Engineer Ali Chalaki, an AI and machine learning specialist. Leveraging years of experience in information technology and digital health, this system has been designed to meet users' needs in the best possible way.",
+                techTitle: "Technologies Used",
+                techDesc: "This system has been developed using a combination of the following technologies:",
+                tech1: "Natural Language Processing (NLP)",
+                tech2: "Deep Neural Networks",
+                tech3: "Machine Learning",
+                tech4: "Medical Knowledge Base",
+                chatTitle: "Smart Medical Chatbot",
+                chatPlaceholder: "Ask your medical question...",
+                welcomeMessage: "Hello! I am an intelligent medical assistant trained using the most advanced deep learning algorithms and natural language processing. How can I help you today?",
+                navConsultation: "Consultation",
+                navFeatures: "Features",
+                navAbout: "About Us",
+                footerTitle: "Online Doctor",
+                footerDesc: "Smart medical consultation using the most advanced AI technologies",
+                contactTitle: "Contact Us",
+                email: "info@doctor-online.ir",
+                phone: "09102655884",
+                socialTitle: "Social Networks",
+                copyright: "© 2023 Online Doctor. All rights reserved."
+            },
+            ar: {
+                title: "طبيب أونلاين - استشارة طبية ذكية",
+                logoText: "طبيب أونلاين",
+                heroTitle: "استشارة طبية ذكية",
+                heroSubtitle: "إجابات على أسئلتك الطبية باستخدام أحدث تقنيات الذكاء الاصطناعي",
+                ctaButton: "بدء الاستشارة",
+                featuresTitle: "ميزات طبيب أونلاين",
+                featuresSubtitle: "حلول ذكية لصحتك",
+                feature1Title: "رد على مدار الساعة",
+                feature1Desc: "يمكنك طرح أسئلتك الطبية في أي وقت والحصول على رد فوري.",
+                feature2Title: "خصوصية البيانات",
+                feature2Desc: "جميع معلوماتك وأسئلتك تحفظ بسرية تامة.",
+                feature3Title: "ذكاء اصطناعي متقدم",
+                feature3Desc: "باستخدام أحدث تقنيات الذكاء الاصطناعي، تحصل على أدق الإجابات.",
+                aboutTitle: "عن طبيب أونلاين",
+                aboutText1: "مشروع طبيب أونلاين هو نظام استشارة طبية ذكي مصمم باستخدام أحدث خوارزميات الذكاء الاصطناعي. يمكن لهذا النظام الإجابة على الأسئلة الطبية للمستخدمين وتقديم معلومات مفيدة حول الصحة. تعمل هذه المنصة كمساعد طبي افتراضي ويمكن أن تكون فعالة في التشخيص الأولي لأعراض الأمراض وتقديم التوجيهات الطبية العامة وزيادة الوعي الصحي.",
+                aboutText2: "تم تصميم وتطوير هذا التطبيق بواسطة المهندس علي چالاكي، أخصائي الذكاء الاصطناعي وتعلم الآلة. باستغلال سنوات من الخبرة في تكنولوجيا المعلومات والصحة الرقمية، تم تصميم هذا النظام لتلبية احتياجات المستخدمين بأفضل طريقة ممكنة.",
+                techTitle: "التقنيات المستخدمة",
+                techDesc: "تم تطوير هذا النظام باستخدام مزيج من التقنيات التالية:",
+                tech1: "معالجة اللغة الطبيعية (NLP)",
+                tech2: "الشبكات العصبية العميقة",
+                tech3: "تعلم الآلة",
+                tech4: "قاعدة المعرفة الطبية",
+                chatTitle: "روبوت محادثة طبي ذكي",
+                chatPlaceholder: "اطرح سؤالك الطبي...",
+                welcomeMessage: "مرحبًا! أنا مساعد طبي ذكي مدرب باستخدام أحدث خوارزميات التعلم العميق ومعالجة اللغة الطبيعية. كيف يمكنني مساعدتك اليوم؟",
+                navConsultation: "استشارة",
+                navFeatures: "ميزات",
+                navAbout: "معلومات عنا",
+                footerTitle: "طبيب أونلاين",
+                footerDesc: "استشارة طبية ذكية باستخدام أحدث تقنيات الذكاء الاصطناعي",
+                contactTitle: "اتصل بنا",
+                email: "info@doctor-online.ir",
+                phone: "09102655884",
+                socialTitle: "الشبكات الاجتماعية",
+                copyright: "© 2023 طبيب أونلاين. جميع الحقوق محفوظة."
+            },
+            fr: {
+                title: "Docteur en Ligne - Consultation Médicale Intelligente",
+                logoText: "Docteur en Ligne",
+                heroTitle: "Consultation Médicale Intelligente",
+                heroSubtitle: "Réponses à vos questions médicales utilisant la technologie IA la plus avancée",
+                ctaButton: "Commencer la Consultation",
+                featuresTitle: "Fonctionnalités du Docteur en Ligne",
+                featuresSubtitle: "Solutions intelligentes pour votre santé",
+                feature1Title: "Réponse 24h/24",
+                feature1Desc: "Vous pouvez poser vos questions médicales à tout moment et obtenir une réponse immédiate.",
+                feature2Title: "Confidentialité des Données",
+                feature2Desc: "Toutes vos informations et questions sont gardées strictement confidentielles.",
+                feature3Title: "IA Avancée",
+                feature3Desc: "En utilisant les dernières technologies d'IA, vous recevez les réponses les plus précises.",
+                aboutTitle: "À propos de Docteur en Ligne",
+                aboutText1: "Le projet Docteur en Ligne est un système de consultation médicale intelligente conçu avec les algorithmes d'IA les plus avancés. Ce système peut répondre aux questions médicales des utilisateurs et fournir des informations utiles sur la santé. Cette plateforme agit comme un assistant médical virtuel et peut être efficace pour le diagnostic préliminaire des symptômes de maladie, fournissant des conseils médicaux généraux et augmentant la sensibilisation à la santé.",
+                aboutText2: "Cette application a été conçue et développée par l'ingénieur Ali Chalaki, spécialiste en IA et apprentissage automatique. En tirant parti des années d'expérience dans les technologies de l'information et la santé numérique, ce système a été conçu pour répondre aux besoins des utilisateurs de la meilleure façon possible.",
+                techTitle: "Technologies Utilisées",
+                techDesc: "Ce système a été développé en utilisant une combinaison des technologies suivantes:",
+                tech1: "Traitement du Langage Naturel (NLP)",
+                tech2: "Réseaux Neuronaux Profonds",
+                tech3: "Apprentissage Automatique",
+                tech4: "Base de Connaissances Médicales",
+                chatTitle: "Chatbot Médical Intelligent",
+                chatPlaceholder: "Posez votre question médicale...",
+                welcomeMessage: "Bonjour! Je suis un assistant médical intelligent formé avec les algorithmes d'apprentissage profond les plus avancés et le traitement du langage naturel. Comment puis-je vous aider aujourd'hui?",
+                navConsultation: "Consultation",
+                navFeatures: "Fonctionnalités",
+                navAbout: "À propos",
+                footerTitle: "Docteur en Ligne",
+                footerDesc: "Consultation médicale intelligente utilisant les technologies IA les plus avancées",
+                contactTitle: "Contactez-nous",
+                email: "info@doctor-online.ir",
+                phone: "09102655884",
+                socialTitle: "Réseaux Sociaux",
+                copyright: "© 2023 Docteur en Ligne. Tous droits réservés."
+            },
+            it: {
+                title: "Dottore Online - Consulto Medico Intelligente",
+                logoText: "Dottore Online",
+                heroTitle: "Consulto Medico Intelligente",
+                heroSubtitle: "Risposte alle tue domande mediche utilizzando la tecnologia AI più avanzata",
+                ctaButton: "Inizia Consulto",
+                featuresTitle: "Funzionalità di Dottore Online",
+                featuresSubtitle: "Soluzioni intelligenti per la tua salute",
+                feature1Title: "Risposta 24/7",
+                feature1Desc: "Puoi fare le tue domande mediche in qualsiasi momento e ricevere una risposta immediata.",
+                feature2Title: "Privacy dei Dati",
+                feature2Desc: "Tutte le tue informazioni e domande sono mantenute completamente confidenziali.",
+                feature3Title: "AI Avanzata",
+                feature3Desc: "Utilizzando le ultime tecnologie AI, ricevi le risposte più accurate.",
+                aboutTitle: "Informazioni su Dottore Online",
+                aboutText1: "Il progetto Dottore Online è un sistema di consulto medico intelligente progettato utilizzando gli algoritmi AI più avanzati. Questo sistema può rispondere alle domande mediche degli utenti e fornire informazioni utili sulla salute. Questa piattaforma funge da assistente medico virtuale e può essere efficace nella diagnosi preliminare dei sintomi della malattia, fornendo indicazioni mediche generali e aumentando la consapevolezza sulla salute.",
+                aboutText2: "Questa applicazione è stata progettata e sviluppata dall'Ingegnere Ali Chalaki, specialista in AI e machine learning. Sfruttando anni di esperienza nel campo delle tecnologie dell'informazione e della salute digitale, questo sistema è stato progettato per soddisfare le esigenze degli utenti nel modo migliore possibile.",
+                techTitle: "Tecnologie Utilizzate",
+                techDesc: "Questo sistema è stato sviluppato utilizzando una combinazione delle seguenti tecnologie:",
+                tech1: "Elaborazione del Linguaggio Naturale (NLP)",
+                tech2: "Reti Neurali Profonde",
+                tech3: "Apprendimento Automatico",
+                tech4: "Base di Conoscenza Medica",
+                chatTitle: "Chatbot Medico Intelligente",
+                chatPlaceholder: "Fai la tua domanda medica...",
+                welcomeMessage: "Ciao! Sono un assistente medico intelligente addestrato utilizzando gli algoritmi di apprendimento profondo più avanzati e l'elaborazione del linguaggio naturale. Come posso aiutarti oggi?",
+                navConsultation: "Consulto",
+                navFeatures: "Funzionalità",
+                navAbout: "Chi siamo",
+                footerTitle: "Dottore Online",
+                footerDesc: "Consultо medico intelligente utilizzando le tecnologie AI più avanzate",
+                contactTitle: "Contattaci",
+                email: "info@doctor-online.ir",
+                phone: "09102655884",
+                socialTitle: "Social Network",
+                copyright: "© 2023 Dottore Online. Tutti i diritti riservati."
+            }
+        };
+
+        // Language switcher functionality
+        const languageBtn = document.getElementById('languageBtn');
+        const languageDropdown = document.getElementById('languageDropdown');
+        
+        languageBtn.addEventListener('click', () => {
+            languageDropdown.classList.toggle('show');
+        });
+        
+        // Close dropdown when clicking outside
+        window.addEventListener('click', (e) => {
+            if (!e.target.matches('.language-btn') && !e.target.closest('.language-dropdown')) {
+                if (languageDropdown.classList.contains('show')) {
+                    languageDropdown.classList.remove('show');
                 }
-            });
-            
-            // Conversation history
-            let conversationHistory = [
-                {
-                    role: "system",
-                    content: "شما یک دستیار پزشکی هوشمند به نام دکتر آنلاین هستید که توسط مهندس علی چالاکی طراحی شده‌اید. به سوالات پزشکی کاربران به زبان فارسی پاسخ می‌دهید. پاسخ‌ها باید دقیق، مفید و حرفه‌ای باشد. هرگز نگویید که یک مدل هوش مصنوعی هستید، فقط بگویید یک دستیار پزشکی هوشمند هستید. در پاسخ‌ها از اصطلاحات پزشکی مناسب استفاده کنید اما توضیحات را ساده و قابل فهم ارائه دهید."
-                },
-                {
-                    role: "assistant",
-                    content: "سلام! من دکتر آنلاین هستم، یک دستیار پزشکی هوشمند. چگونه می‌توانم به شما کمک کنم؟"
-                }
-            ];
-            
-            async function sendMessage() {
-                const message = userInput.value.trim();
-                if (message === '') return;
+            }
+        });
+        
+        // Change language
+        document.querySelectorAll('.language-dropdown a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const lang = link.getAttribute('data-lang');
+                const dir = link.getAttribute('data-dir');
                 
-                // Add user message to chat and history
-                addMessage(message, 'user');
-                conversationHistory.push({
-                    role: "user",
-                    content: message
+                // Update button text
+                languageBtn.innerHTML = `${link.textContent} <i class="fas fa-chevron-down"></i>`;
+                
+                // Change document direction and language
+                document.documentElement.setAttribute('dir', dir);
+                document.documentElement.setAttribute('lang', lang);
+                
+                // Update all text content
+                updateContent(lang);
+                
+                // Close dropdown
+                languageDropdown.classList.remove('show');
+            });
+        });
+        
+        // Update all text content based on selected language
+        function updateContent(lang) {
+            const t = translations[lang];
+            
+            // Update title
+            document.title = t.title;
+            
+            // Update logo text
+            document.getElementById('logo-text').textContent = t.logoText;
+            
+            // Update hero section
+            document.querySelector('.hero h1').textContent = t.heroTitle;
+            document.querySelector('.hero p').textContent = t.heroSubtitle;
+            document.querySelector('.hero .btn').textContent = t.ctaButton;
+            
+            // Update features section
+            document.querySelector('.features .section-title').textContent = t.featuresTitle;
+            document.querySelector('.features p').textContent = t.featuresSubtitle;
+            
+            const featureCards = document.querySelectorAll('.feature-card');
+            featureCards[0].querySelector('h3').textContent = t.feature1Title;
+            featureCards[0].querySelector('p').textContent = t.feature1Desc;
+            featureCards[1].querySelector('h3').textContent = t.feature2Title;
+            featureCards[1].querySelector('p').textContent = t.feature2Desc;
+            featureCards[2].querySelector('h3').textContent = t.feature3Title;
+            featureCards[2].querySelector('p').textContent = t.feature3Desc;
+            
+            // Update about section
+            document.querySelector('.about-text h2').textContent = t.aboutTitle;
+            const aboutParagraphs = document.querySelectorAll('.about-text p');
+            aboutParagraphs[0].textContent = t.aboutText1;
+            aboutParagraphs[1].textContent = t.aboutText2;
+            
+            // Update tech stack
+            document.querySelector('.tech-stack h3').textContent = t.techTitle;
+            document.querySelector('.tech-stack p').textContent = t.techDesc;
+            
+            const techItems = document.querySelectorAll('.tech-name');
+            techItems[0].textContent = t.tech1;
+            techItems[1].textContent = t.tech2;
+            techItems[2].textContent = t.tech3;
+            techItems[3].textContent = t.tech4;
+            
+            // Update chat section
+            document.querySelector('.chat-header h2').textContent = t.chatTitle;
+            document.querySelector('#userInput').placeholder = t.chatPlaceholder;
+            
+            // Update welcome message if it's the first message
+            const chatMessages = document.querySelectorAll('.chat-messages .message');
+            if (chatMessages.length === 1) {
+                chatMessages[0].textContent = t.welcomeMessage;
+            }
+            
+            // Update navigation items
+            document.querySelector('#nav-consultation .nav-text').textContent = t.navConsultation;
+            document.querySelector('#nav-features .nav-text').textContent = t.navFeatures;
+            document.querySelector('#nav-about .nav-text').textContent = t.navAbout;
+            
+            // Update footer
+            const footerSections = document.querySelectorAll('.footer-section');
+            footerSections[0].querySelector('h3').textContent = t.footerTitle;
+            footerSections[0].querySelector('p').textContent = t.footerDesc;
+            footerSections[1].querySelector('h3').textContent = t.contactTitle;
+            footerSections[1].querySelectorAll('a')[0].textContent = t.phone;
+            footerSections[1].querySelectorAll('a')[1].textContent = t.email;
+            footerSections[2].querySelector('h3').textContent = t.socialTitle;
+            
+            document.querySelector('.copyright p').textContent = t.copyright;
+        }
+        
+        // Chat functionality
+        const chatMessages = document.getElementById('chatMessages');
+        const userInput = document.getElementById('userInput');
+        const sendBtn = document.getElementById('sendBtn');
+        
+        sendBtn.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+        
+        function sendMessage() {
+            const message = userInput.value.trim();
+            if (message === '') return;
+            
+            // Add user message to chat
+            addMessage(message, 'user');
+            
+            // Clear input
+            userInput.value = '';
+            
+            // Show typing indicator
+            showTypingIndicator();
+            
+            // Get bot response after a short delay
+            setTimeout(() => {
+                getBotResponse(message);
+            }, 1000);
+        }
+        
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            messageDiv.classList.add(sender === 'user' ? 'user-message' : 'bot-message');
+            messageDiv.textContent = text;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        function showTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.classList.add('message', 'bot-message');
+            typingDiv.id = 'typingIndicator';
+            
+            const dotsDiv = document.createElement('div');
+            dotsDiv.classList.add('loading-dots');
+            dotsDiv.innerHTML = `
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            `;
+            
+            typingDiv.appendChild(dotsDiv);
+            chatMessages.appendChild(typingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        function removeTypingIndicator() {
+            const typingIndicator = document.getElementById('typingIndicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
+        
+        async function getBotResponse(userMessage) {
+            // Remove typing indicator
+            removeTypingIndicator();
+            
+            // Get current language
+            const currentLang = document.documentElement.getAttribute('lang') || 'fa';
+            
+            try {
+                // In a real implementation, you would call your backend API here
+                // The backend would then call the DeepSeek API
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: userMessage,
+                        language: currentLang
+                    })
                 });
                 
-                userInput.value = '';
-                userInput.style.height = 'auto';
+                const data = await response.json();
+                addMessage(data.reply, 'bot');
                 
-                // Show typing indicator
-                showTypingIndicator();
+            } catch (error) {
+                console.error('Error calling API:', error);
                 
-                try {
-                    // Get response from DeepSeek API
-                    const botResponse = await getAIResponse(message);
-                    removeTypingIndicator();
-                    addMessage(botResponse, 'bot', true);
-                    
-                    // Add assistant response to history
-                    conversationHistory.push({
-                        role: "assistant",
-                        content: botResponse
-                    });
-                } catch (error) {
-                    removeTypingIndicator();
-                    addMessage("متاسفانه در ارتباط با سرویس هوش مصنوعی مشکلی پیش آمده. لطفاً دوباره تلاش کنید.", 'bot');
-                    console.error("Error calling AI API:", error);
-                }
-            }
-            
-            function addMessage(text, sender, isMarkdown = false) {
-                const messageDiv = document.createElement('div');
-                messageDiv.classList.add('message');
-                messageDiv.classList.add(sender === 'user' ? 'user-message' : 'bot-message');
+                // Fallback responses in different languages
+                const fallbackResponses = {
+                    fa: [
+                        "برای پاسخ به سوال پزشکی شما، ابتدا بهتر است علائم دقیق‌تری را شرح دهید. آیا تب، سردرد یا علائم دیگری دارید؟",
+                        "این مورد می‌تواند نشانه چندین شرایط مختلف باشد. توصیه می‌کنم برای معاینه دقیق‌تر به پزشک مراجعه نمایید.",
+                        "استراحت کافی و مصرف مایعات گرم می‌تواند به بهبود این وضعیت کمک کند. اگر علائم بیش از 3 روز ادامه داشت، حتما به پزشک مراجعه کنید."
+                    ],
+                    en: [
+                        "To answer your medical question, it would be better to describe your symptoms more precisely. Do you have fever, headache or other symptoms?",
+                        "This could be a sign of several different conditions. I recommend seeing a doctor for a more accurate examination.",
+                        "Adequate rest and drinking warm fluids can help improve this condition. If symptoms persist for more than 3 days, be sure to see a doctor."
+                    ],
+                    ar: [
+                        "للإجابة على سؤالك الطبي، من الأفضل أولاً وصف الأعراض بدقة أكبر. هل تعاني من حمى أو صداع أو أعراض أخرى؟",
+                        "قد يكون هذا علامة على عدة حالات مختلفة. أوصي بمراجعة الطبيب لإجراء فحص أكثر دقة.",
+                        "الراحة الكافية وشرب السوائل الدافئة يمكن أن تساعد في تحسين هذه الحالة. إذا استمرت الأعراض لأكثر من 3 أيام، تأكد من مراجعة الطبيب."
+                    ],
+                    fr: [
+                        "Pour répondre à votre question médicale, il serait préférable de décrire vos symptômes plus précisément. Avez-vous de la fièvre, des maux de tête ou d'autres symptômes?",
+                        "Cela pourrait être le signe de plusieurs affections différentes. Je recommande de consulter un médecin pour un examen plus précis.",
+                        "Un repos adéquat et la consommation de liquides chauds peuvent aider à améliorer cette condition. Si les symptômes persistent pendant plus de 3 jours, assurez-vous de consulter un médecin."
+                    ],
+                    it: [
+                        "Per rispondere alla tua domanda medica, sarebbe meglio descrivere i sintomi in modo più preciso. Hai febbre, mal di testa o altri sintomi?",
+                        "Questo potrebbe essere un segno di diverse condizioni. Raccomando di vedere un medico per un esame più accurato.",
+                        "Un riposo adeguato e il consumo di liquidi caldi possono aiutare a migliorare questa condizione. Se i sintomi persistono per più di 3 giorni, assicurati di consultare un medico."
+                    ]
+                };
                 
-                if (isMarkdown) {
-                    const contentDiv = document.createElement('div');
-                    contentDiv.classList.add('markdown-content');
-                    contentDiv.innerHTML = marked.parse(text);
-                    messageDiv.appendChild(contentDiv);
-                } else {
-                    messageDiv.textContent = text;
-                }
-                
-                chatMessages.appendChild(messageDiv);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
+                const randomResponse = fallbackResponses[currentLang][Math.floor(Math.random() * fallbackResponses[currentLang].length)];
+                addMessage(randomResponse, 'bot');
             }
+        }
+        
+        // Show chat section smoothly when clicking start consultation button
+        const startConsultationBtn = document.getElementById('startConsultationBtn');
+        const chatSection = document.getElementById('chat');
+        
+        startConsultationBtn.addEventListener('click', (e) => {
+            // Show chat section with animation
+            chatSection.classList.add('show');
             
-            function showTypingIndicator() {
-                const typingDiv = document.createElement('div');
-                typingDiv.id = 'typing-indicator';
-                typingDiv.classList.add('message', 'bot-message', 'typing-indicator');
-                typingDiv.innerHTML = `
-                    <span class="typing-dot"></span>
-                    <span class="typing-dot"></span>
-                    <span class="typing-dot"></span>
-                `;
-                chatMessages.appendChild(typingDiv);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
+            // Smooth scroll to chat section
+            setTimeout(() => {
+                chatSection.scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+        });
+        
+        // Initialize chat section visibility
+        window.addEventListener('load', () => {
+            // Hide chat section initially
+            chatSection.style.opacity = '0';
+            chatSection.style.transform = 'translateY(20px)';
             
-            function removeTypingIndicator() {
-                const typingIndicator = document.getElementById('typing-indicator');
-                if (typingIndicator) {
-                    typingIndicator.remove();
-                }
-            }
-            
-            async function getAIResponse(userMessage) {
-                try {
-                    const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${API_KEY}`
-                        },
-                        body: JSON.stringify({
-                            model: "deepseek-chat",
-                            messages: conversationHistory,
-                            temperature: 0.7,
-                            max_tokens: 1000
-                        })
-                    });
-                    
-                    const data = await response.json();
-                    
-                    if (data.choices && data.choices[0] && data.choices[0].message) {
-                        let responseText = data.choices[0].message.content;
-                        
-                        // حذف هرگونه اشاره به DeepSeek از پاسخ
-                        responseText = responseText.replace(/DeepSeek/gi, 'سیستم ما');
-                        responseText = responseText.replace(/هوش مصنوعی دیپ سیک/gi, 'دستیار پزشکی هوشمند');
-                        
-                        return responseText;
-                    } else {
-                        throw new Error("Invalid response format from API");
-                    }
-                } catch (error) {
-                    console.error("Error calling DeepSeek API:", error);
-                    throw error;
-                }
+            // Show chat section if URL has #chat hash
+            if (window.location.hash === '#chat') {
+                chatSection.classList.add('show');
             }
         });
     </script>
