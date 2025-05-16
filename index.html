@@ -1024,7 +1024,7 @@
                 aboutText1: "Il progetto Dottore Online è un sistema di consulto medico intelligente progettato utilizzando gli algoritmi AI più avanzati. Questo sistema può rispondere alle domande mediche degli utenti e fornire informazioni utili sulla salute. Questa piattaforma funge da assistente medico virtuale e può essere efficace nella diagnosi preliminare dei sintomi della malattia, fornendo indicazioni mediche generali e aumentando la consapevolezza sulla salute.",
                 aboutText2: "Questa applicazione è stata progettata e sviluppata dall'Ingegnere Ali Chalaki, specialista in AI e machine learning. Sfruttando anni di esperienza nel campo delle tecnologie dell'informazione e della salute digitale, questo sistema è stato progettato per soddisfare le esigenze degli utenti nel modo migliore possibile.",
                 techTitle: "Tecnologie Utilizzate",
-                techDesc: "Questo sistema è stato sviluppato utilizzando una combinazione delle seguintes tecnologie:",
+                techDesc: "Questo sistema è stato sviluppato utilizzando una combinazione delle seguentes tecnologie:",
                 tech1: "Elaborazione del Linguaggio Naturale (NLP)",
                 tech2: "Reti Neurali Profonde",
                 tech3: "Apprendimento Automatico",
@@ -1277,14 +1277,56 @@
             }
         }
         
+        // Smooth scroll to sections when clicking navigation items
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    // Calculate the offset considering the fixed header
+                    const headerHeight = document.querySelector('header').offsetHeight;
+                    const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Update URL without page jump
+                    if (history.pushState) {
+                        history.pushState(null, null, targetId);
+                    } else {
+                        window.location.hash = targetId;
+                    }
+                }
+            });
+        });
+        
         // Smooth scroll to chat section when clicking start consultation button
         const startConsultationBtn = document.getElementById('startConsultationBtn');
         
         startConsultationBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            document.getElementById('chat').scrollIntoView({ 
-                behavior: 'smooth' 
-            });
+            const targetElement = document.getElementById('chat');
+            
+            if (targetElement) {
+                const headerHeight = document.querySelector('header').offsetHeight;
+                const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+                
+                if (history.pushState) {
+                    history.pushState(null, null, '#chat');
+                } else {
+                    window.location.hash = '#chat';
+                }
+            }
         });
     </script>
 </body>
